@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caleb's Stuff</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: #e8e8e8;
+        }
+        h1 {
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        p.sub {
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .project {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,255,136,0.2);
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: #e8e8e8;
+            transition: all 0.2s ease;
+        }
+        .project:hover {
+            background: rgba(0,255,136,0.1);
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+        .project h2 {
+            font-size: 18px;
+            margin: 0 0 4px 0;
+            color: #00ff88;
+        }
+        .project p {
+            margin: 0;
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caleb's Stuff</h1>
+    <p class="sub">A collection of web projects</p>
+    <div class="projects">
+        <a class="project" href="maze-generator/">
+            <h2>Maze Generator</h2>
+            <p>Procedurally generated mazes with adjustable complexity, interactive player movement, and solution solver.</p>
+        </a>
+    </div>
+</body>
+</html>
