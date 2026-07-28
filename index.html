@@ -1,69 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caleb's Stuff</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            color: #e8e8e8;
-        }
-        h1 {
-            margin-bottom: 8px;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-        }
-        p.sub {
-            color: #a0a0a0;
-            margin-bottom: 30px;
-        }
-        .projects {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            max-width: 500px;
-        }
-        .project {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(0,255,136,0.2);
-            border-radius: 12px;
-            padding: 20px 24px;
-            text-decoration: none;
-            color: #e8e8e8;
-            transition: all 0.2s ease;
-        }
-        .project:hover {
-            background: rgba(0,255,136,0.1);
-            border-color: #00ff88;
-            transform: translateY(-2px);
-        }
-        .project h2 {
-            font-size: 18px;
-            margin: 0 0 4px 0;
-            color: #00ff88;
-        }
-        .project p {
-            margin: 0;
-            font-size: 14px;
-            color: #a0a0a0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Household Clicker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Caleb's Stuff</h1>
-    <p class="sub">A collection of web projects</p>
-    <div class="projects">
-        <a class="project" href="maze-generator/">
-            <h2>Maze Generator</h2>
-            <p>Procedurally generated mazes with adjustable complexity, interactive player movement, and solution solver.</p>
-        </a>
+  <div id="homescreen">
+    <div class="homescreen-content">
+      <h1 class="homescreen-title">Household<br>Clicker</h1>
+      <p class="homescreen-subtitle">Accumulate. Organize. Hoard.</p>
+      <button id="start-btn" class="homescreen-btn">📦 Start Collecting</button>
+      <div class="homescreen-settings">
+        <button id="settings-toggle" class="settings-toggle">⚙️</button>
+        <div id="settings-panel" class="settings-panel">
+          <h3>Settings</h3>
+          <label class="slider-label">Brightness
+            <input type="range" id="brightness-slider" min="50" max="150" value="100">
+          </label>
+          <label class="slider-label">Sound
+            <input type="range" id="sound-slider" min="0" max="100" value="100">
+          </label>
+          <label class="slider-label">SFX
+            <input type="range" id="sfx-slider" min="0" max="100" value="100">
+          </label>
+          <label class="slider-label">Music
+            <input type="range" id="music-slider" min="0" max="100" value="100">
+          </label>
+        </div>
+      </div>
+      <p class="homescreen-attribution">"Out Of Step" by Audio Hero (ZapSplat — Free License)</p>
     </div>
+  </div>
+
+  <div id="app">
+    <header id="resource-bar">
+      <div class="resource" id="stuff-display"><span class="res-icon">📦</span><span class="res-value" id="stuff-amount">0</span><span class="res-rate" id="stuff-rate">(+0/s)</span></div>
+      <div class="resource" id="energy-display"><span class="res-icon">⚡</span><span class="res-value" id="energy-amount">0</span><span class="res-rate" id="energy-rate">(+0/s)</span></div>
+      <div class="resource" id="rp-display"><span class="res-icon">📄</span><span class="res-value" id="research-points-amount">0</span><span class="res-rate" id="research-points-rate">(+0/s)</span></div>
+      <div class="era-badge" id="room-badge">🚪 Closet</div>
+    </header>
+
+    <main>
+      <section id="click-area">
+        <div class="object-container">
+          <div class="glow"></div>
+          <button id="click-button" class="object-btn" aria-label="Click to acquire">📦</button>
+          <div class="click-particles" id="click-particles"></div>
+        </div>
+        <p class="click-hint">Click to acquire <strong>+<span id="click-power-display">1</span></strong> Stuff</p>
+      </section>
+
+      <nav id="tab-bar">
+        <button class="tab-btn active" data-tab="items">📦 Items</button>
+        <button class="tab-btn" data-tab="lab">🔬 Lab</button>
+        <button class="tab-btn" data-tab="energy">⚡ Energy</button>
+        <button class="tab-btn" data-tab="upgrades">⬆️ Upgrades</button>
+        <button class="tab-btn" data-tab="milestones">🏆 Milestones</button>
+        <button class="tab-btn" data-tab="altar">🕯️ Altar</button>
+      </nav>
+
+      <section id="tab-content">
+        <div class="tab-panel active" id="panel-items">
+          <h2>Household Items</h2>
+          <p class="panel-subtitle">Acquire items to generate Stuff automatically</p>
+          <div id="items-list"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-lab">
+          <h2>🔬 Research Lab</h2>
+          <p class="panel-subtitle">Build lab equipment to generate Research Points</p>
+          <div id="research-status" class="research-banner powered">🟢 Research Running</div>
+          <div id="research-lab-list"></div>
+          <h3 style="margin-top:24px;">📖 Research Projects</h3>
+          <p class="panel-subtitle">Spend Research Points on permanent upgrades</p>
+          <div id="research-projects-list"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-energy">
+          <h2>⚡ Energy Production</h2>
+          <p class="panel-subtitle">Build energy generators to produce ⚡</p>
+          <div id="energy-items-list"></div>
+
+          <h3 style="margin-top:24px;">⚡ Energy Balance</h3>
+          <div class="energy-balance">
+            <span>Producing: <strong id="energy-prod-display">+0/s</strong></span>
+            <span>Research drain: <strong id="energy-drain-display">−0/s</strong></span>
+          </div>
+
+          <h3 style="margin-top:24px;">🚀 Energy Actions</h3>
+          <div class="energy-actions">
+            <div class="action-card">
+              <button id="boost-btn" class="action-btn boost-btn" disabled style="display:none">🚀 Boost</button>
+              <p id="boost-info" class="action-info">Unlock from Energy upgrades</p>
+            </div>
+            <div class="action-card">
+              <button id="convert-btn" class="action-btn convert-btn" disabled style="display:none">🔄 Convert</button>
+              <p id="convert-info" class="action-info">Unlock from Energy upgrades</p>
+            </div>
+          </div>
+          <div class="auto-convert-row">
+            <label class="toggle-label">
+              <input type="checkbox" id="auto-convert-toggle"> Auto-Convert
+            </label>
+            <div class="auto-convert-config">
+              <label>Amount: <input type="number" id="auto-convert-amount" value="500" min="50" step="50"> ⚡</label>
+              <label>Every: <input type="number" id="auto-convert-interval" value="10" min="1" step="1">s</label>
+            </div>
+          </div>
+
+          <h3 style="margin-top:24px;">⚡ Energy Upgrades</h3>
+          <p class="panel-subtitle">Upgrades bought with Energy</p>
+          <div id="energy-upgrades-list"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-upgrades">
+          <h2>Upgrades</h2>
+          <p class="panel-subtitle">Permanent boosts for your household</p>
+          <div id="upgrades-list"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-milestones">
+          <h2>Milestones</h2>
+          <p class="panel-subtitle">Achievements throughout your journey</p>
+          <div id="achievements-list"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-altar">
+          <h2>🕯️ Hygieia's Altar</h2>
+          <p class="panel-subtitle">The goddess of cleanliness watches over your home...</p>
+          <div class="altar-flavor">
+            <p>"Bring me your clutter, and I shall bless your home."</p>
+          </div>
+          <div class="altar-cost-display" id="altar-cost">
+            <div class="altar-cost-item"><span class="altar-cost-icon">📦</span><span id="altar-cost-stuff">0</span></div>
+            <div class="altar-cost-item"><span class="altar-cost-icon">⚡</span><span id="altar-cost-energy">0</span></div>
+            <div class="altar-cost-item"><span class="altar-cost-icon">📄</span><span id="altar-cost-rp">0</span></div>
+          </div>
+          <button id="altar-btn" class="altar-btn">🙏 Pray at the Altar</button>
+          <div id="blessing-cards" class="blessing-cards"></div>
+          <div id="owned-blessings">
+            <h3>Your Blessings</h3>
+            <div id="blessings-list"></div>
+          </div>
+
+          <div class="danger-zone">
+            <h3>💀 Danger Zone</h3>
+            <p>Permanently delete all progress, including blessings.</p>
+            <button id="wipe-btn" class="wipe-btn">💥 Wipe Save</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="notification-container"></div>
+  </div>
+
+  <div id="tutorial-overlay" class="tutorial-overlay hidden">
+    <div class="tutorial-spotlight" id="tutorial-spotlight"></div>
+    <div class="tutorial-box" id="tutorial-box">
+      <div class="tutorial-step-counter" id="tutorial-step-counter">1 / 8</div>
+      <h3 class="tutorial-title" id="tutorial-title"></h3>
+      <p class="tutorial-text" id="tutorial-text"></p>
+      <div class="tutorial-controls">
+        <button id="tutorial-back" class="tutorial-btn tutorial-back-btn">← Back</button>
+        <button id="tutorial-skip" class="tutorial-btn tutorial-skip-btn">Skip</button>
+        <button id="tutorial-next" class="tutorial-btn tutorial-next-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/gameState.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/adaptations.js"></script>
+  <script src="js/energy.js"></script>
+  <script src="js/research.js"></script>
+  <script src="js/upgrades.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/prestige.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/whoosh_data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/tutorial.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
