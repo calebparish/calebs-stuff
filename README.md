@@ -1,19 +1,9 @@
-# Household Clicker
+# Caleb's Stuff
 
-An idle/incremental clicker game themed around household objects.
+A collection of web projects hosted on GitHub Pages.
 
-Play it at: **`clicker game/index.html`**
+**[View Site](https://calebparish.github.io/calebs-stuff/)**
 
-## How to Play
+## Projects
 
-- **Click** the box to earn Stuff (📦)
-- **Buy items** to generate Stuff automatically
-- **Build energy generators** to produce Energy (⚡)
-- **Research** consumes Energy to generate Research Points (📄) — if Energy runs out, research stops
-- **Spend Research Points** on permanent bonuses
-- **Buy upgrades** to multiply production
-- **Reach the Altar** to sacrifice everything for permanent blessings
-
-## Tech
-
-Vanilla HTML/CSS/JS — no frameworks or build tools.
+- [Maze Generator](https://calebparish.github.io/calebs-stuff/maze-generator/) — Procedurally generated mazes with adjustable complexity, interactive player movement, and solution solver.
